@@ -1,192 +1,143 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Calculadora de Notas | Nota final ponderada</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Calculadora de Letra del DNI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Calculadora de notas online para estudiantes de instituto y universidad. Calcula tu nota final ponderada según porcentajes y calificaciones.">
-    <meta name="keywords" content="calculadora de notas, calcular nota final, nota ponderada, aprobar examen">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y12CX7WYZ1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y12CX7WYZ1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    gtag('config', 'G-Y12CX7WYZ1');
+  </script>
+  <!-- Fin Google Analytics -->
 
-      gtag('config', 'G-Y12CX7WYZ1');
-    </script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+    .card {
+      background: #ffffff;
+      padding: 35px 30px;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
+    }
 
-        p {
-            text-align: center;
-            color: #555;
-            margin-bottom: 25px;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
+    h1 {
+      margin-bottom: 10px;
+      font-size: 1.9rem;
+      color: #1e3c72;
+    }
 
-        input {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
+    p {
+      margin-bottom: 25px;
+      color: #666;
+      font-size: 0.95rem;
+    }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            font-size: 16px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.05rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      text-align: center;
+    }
 
-        button:hover {
-            background: #1e4fd6;
-        }
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 14px;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      cursor: pointer;
+    }
 
-        .result {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
+    .resultado {
+      margin-top: 25px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      min-height: 1.5em;
+    }
 
-        .error {
-            color: #d00000;
-        }
+    .error { color: #d93025; }
+    .ok { color: #188038; }
 
-        .success {
-            color: #0f8a3d;
-        }
-
-        .footer {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 13px;
-            color: #777;
-        }
-    </style>
+    footer {
+      margin-top: 25px;
+      font-size: 0.75rem;
+      color: #999;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Calculadora de Notas</h1>
-    <p>Introduce los porcentajes y las notas obtenidas</p>
+  <div class="card">
+    <h1>Letra del DNI</h1>
+    <p>Introduce el número de tu DNI (sin letra)</p>
 
-    <div class="row">
-        <input type="number" placeholder="% Actividades" id="p1">
-        <input type="number" placeholder="Nota" id="n1">
-    </div>
+    <input type="text" id="dni" placeholder="Ej: 12345678" maxlength="8">
+    <button onclick="calcularLetra()">Calcular letra</button>
 
-    <div class="row">
-        <input type="number" placeholder="% Examen 1" id="p2">
-        <input type="number" placeholder="Nota" id="n2">
-    </div>
+    <div id="resultado" class="resultado"></div>
 
-    <div class="row">
-        <input type="number" placeholder="% Examen 2" id="p3">
-        <input type="number" placeholder="Nota" id="n3">
-    </div>
+    <footer>
+      Cálculo oficial del DNI · España
+    </footer>
+  </div>
 
-    <div class="row">
-        <input type="number" placeholder="% Trabajo / Prácticas" id="p4">
-        <input type="number" placeholder="Nota" id="n4">
-    </div>
+  <script>
+    function calcularLetra() {
+      const letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+      const dni = document.getElementById("dni").value.trim();
+      const resultado = document.getElementById("resultado");
 
-    <div class="row">
-        <input type="number" placeholder="% Otro" id="p5">
-        <input type="number" placeholder="Nota" id="n5">
-    </div>
-
-    <button onclick="calcular()">Calcular nota final</button>
-
-    <div id="resultado" class="result"></div>
-
-    <div class="footer">
-        La suma de los porcentajes debe ser 100%
-    </div>
-</div>
-
-<script>
-function calcular() {
-    let porcentajes = [
-        Number(p1.value) || 0,
-        Number(p2.value) || 0,
-        Number(p3.value) || 0,
-        Number(p4.value) || 0,
-        Number(p5.value) || 0
-    ];
-
-    let notas = [
-        Number(n1.value) || 0,
-        Number(n2.value) || 0,
-        Number(n3.value) || 0,
-        Number(n4.value) || 0,
-        Number(n5.value) || 0
-    ];
-
-    let sumaPorcentajes = porcentajes.reduce((a, b) => a + b, 0);
-
-    if (sumaPorcentajes !== 100) {
-        resultado.innerHTML = `<span class="error">❌ Los porcentajes suman ${sumaPorcentajes}%. Deben sumar 100%.</span>`;
+      if (!/^\d{8}$/.test(dni)) {
+        resultado.textContent = "Introduce un DNI válido (8 números)";
+        resultado.className = "resultado error";
         return;
+      }
+
+      const letra = letras[dni % 23];
+      resultado.textContent = `Tu DNI completo es: ${dni}${letra}`;
+      resultado.className = "resultado ok";
+
+      // Evento personalizado GA4
+      gtag('event', 'calculo_dni', {
+        event_category: 'interaccion',
+        event_label: 'calculo_letra_dni'
+      });
     }
-
-    let notaFinal = 0;
-
-    for (let i = 0; i < porcentajes.length; i++) {
-        notaFinal += (porcentajes[i] / 100) * notas[i];
-    }
-
-    notaFinal = notaFinal.toFixed(2);
-
-    /* Evento Google Analytics: 
-       Esto enviará un aviso cada vez que alguien calcule una nota.
-       Usa automáticamente el ID configurado arriba (G-Y12CX7WYZ1). */
-    if (typeof gtag === 'function') {
-        gtag('event', 'calcular_nota', {
-            event_category: 'interaccion',
-            event_label: 'boton_calcular'
-        });
-    }
-
-    if (notaFinal >= 5) {
-        resultado.innerHTML = `<span class="success">✅ Nota final: ${notaFinal} — APROBADO</span>`;
-    } else {
-        resultado.innerHTML = `<span class="error">❌ Nota final: ${notaFinal} — SUSPENSO</span>`;
-    }
-}
-</script>
+  </script>
 
 </body>
 </html>
