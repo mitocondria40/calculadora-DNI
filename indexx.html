@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Letra del DNI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- =====================================================
+       GOOGLE ANALYTICS (GA4)
+       Sustituye G-XXXXXXXXXX por tu ID de medición
+       ===================================================== -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <!-- ===================================================== -->
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 35px 30px;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 1.9rem;
+      color: #1e3c72;
+    }
+
+    p {
+      margin-bottom: 25px;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.05rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 14px;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .resultado {
+      margin-top: 25px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      min-height: 1.5em;
+    }
+
+    .error { color: #d93025; }
+    .ok { color: #188038; }
+
+    footer {
+      margin-top: 25px;
+      font-size: 0.75rem;
+      color: #999;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>Letra del DNI</h1>
+    <p>Introduce el número de tu DNI (sin letra)</p>
+
+    <input type="text" id="dni" placeholder="Ej: 12345678" maxlength="8">
+    <button onclick="calcularLetra()">Calcular letra</button>
+
+    <div id="resultado" class="resultado"></div>
+
+    <footer>
+      Cálculo oficial del DNI · España
+    </footer>
+  </div>
+
+  <script>
+    function calcularLetra() {
+      const letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+      const dni = document.getElementById("dni").value.trim();
+      const resultado = document.getElementById("resultado");
+
+      if (!/^\d{8}$/.test(dni)) {
+        resultado.textContent = "Introduce un DNI válido (8 números)";
+        resultado.className = "resultado error";
+        return;
+      }
+
+      const letra = letras[dni % 23];
+      resultado.textContent = `Tu DNI completo es: ${dni}${letra}`;
+      resultado.className = "resultado ok";
+
+      // Evento personalizado para Google Analytics
+      if (typeof gtag === "function") {
+        gtag('event', 'calculo_dni', {
+          'event_category': 'interaccion',
+          'event_label': 'calculo_letra_dni'
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
